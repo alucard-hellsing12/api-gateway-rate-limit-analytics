@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User{
+  id String @id @default(uuid())
+  email String @unique
+  password String 
+  createdAt DateTime @default(now())
+
+  upstreams Upstream[]
+}
+
+model Plan{
+  id String @id @default(uuid())
+  name String @unique
+  maxReq Int 
+  
+  apiKey ApiKey[]
+}
+
+model ApiKey{
+  id String @id @default(uuid())
+  name String
+  prefix String 
+  keyHash String @unique
+  createdAt DateTime @default(now())
+  revokedAt DateTime?
+
+  upstreamId String
+  upstream Upstream @relation(fields: [upstreamId] ,references: [id])
+
+  planId String
+  plan Plan @relation(fields: [planId],references: [id])
+
+  usageEvents UsageEvent[]
+
+  @@index([upstreamId])
+}
+
+model Upstream{
+  id String @id @default(uuid())
+  name String
+  baseUrl String
+  createdAt DateTime @default(now())
+
+  userId String 
+  user User @relation(fields: [userId],references: [id])
+
+  apiKey ApiKey[]
+  usageEvents UsageEvent[]
+}
+
+model UsageEvent{
+  id String @id @default(uuid())
+  upstreamId String
+  apiKeyId String
+  statusCode Int
+  latencyMS Int
+  createdAt DateTime @default(now())
+
+  apiKey ApiKey @relation(fields: [apiKeyId],references: [id])
+  upstream Upstream @relation(fields: [upstreamId],references: [id])
+
+  @@index([apiKeyId, createdAt])
+  @@index([upstreamId, createdAt])
+  @@index([createdAt])
+}
