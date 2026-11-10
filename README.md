@@ -9,7 +9,6 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-4169E1?logo=postgresql&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-7-DC382D?logo=redis&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-7-2D3748?logo=prisma&logoColor=white)
-![License](https://img.shields.io/badge/License-ISC-blue)
 
 </div>
 
@@ -480,6 +479,3 @@ node loadTests/proxy.js        # autocannon throughput and latency test
 - [ ] Refresh tokens and API key expiry
 - [ ] Forward non-JSON request bodies (form data, binary)
 
-## License
-
-ISC
