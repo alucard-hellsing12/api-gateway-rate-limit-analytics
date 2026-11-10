@@ -22,6 +22,10 @@ export async function signup(data){
         data : {
             email: input.email,
             password : hashPassword,
+        },
+        select :{
+            id: true,
+            email: true,
         }
     });
 }
